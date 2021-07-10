@@ -2,17 +2,23 @@ import json
 import  os
 
 def registrarempleado():
-    id = int(input('Digite el No. de identificacion del empleado: '))
-    if id in empleado.keys():
-        print('Empleado ya existe')
-    else:
-        lista=[]
-        lista.append(input('Nombre: '))
-        lista.append(int(input('Digite el No. de Sucursal: ')))
-        lista.append(int(input('Salario Base:')))
-        lista.append(int(input('Dias Trabajados:')))
-        empleado[id]= lista
-    input('<ENTER> para continuar')
+    while True:
+        try:
+            id = int(input('Digite el No. de identificacion del empleado: '))
+            if id in empleado.keys():
+                print('Empleado ya existe')
+            else:
+                lista=[]
+                lista.append(input('Nombre: '))
+                lista.append(int(input('Digite el No. de Sucursal: ')))
+                lista.append(int(input('Salario Base:')))
+                lista.append(int(input('Dias Trabajados:')))
+                empleado[id]= lista
+            input('<ENTER> para continuar')
+            break
+        except ValueError:
+            print('Error, no es valido. inetneta de nuevo...')
+            
 
 def mostrarInfoEmpleados():
     for i in empleado:
@@ -20,9 +26,9 @@ def mostrarInfoEmpleados():
     input('<ENTER> para continuar')
 
 def actualizarInformacion():
-    buscar = int(input('Digite el No. de identificacion del empleado: '))
-    if buscar in empleado:
-        print(empleado.get(buscar))
+    try:
+        buscar = int(input('Digite el No. de identificacion del empleado: '))    
+        print(empleado[buscar])
         actualizar = input('Quiere actulizar la informacion (S/N):').upper()
         if(actualizar == 'S'):
             lista=[]
@@ -32,27 +38,24 @@ def actualizarInformacion():
             lista.append(int(input('Dias Trabajados:')))
             empleado[buscar]= lista
             print('Se Actualizo la informacion')
-    else:
-        print('El empleado no existe')
-    
-    input('<ENTER> para continuar')
+    except KeyError:
+        print('El id a buscar no existe')
+    except ValueError:
+        print('valor digitado incorrecto')
+    finally: 
+        input('<ENTER> para continuar')
 
 def eliminarEmpleado():
     buscar = int(input('Digite el No. de identificacion del empleado: '))
-    if buscar in empleado:
-        print(empleado.get(buscar))
-        eliminar = input('Quiere eliminar el empelado (S/N): ').upper()
-        if(eliminar == 'S'):
-            del(empleado[buscar])
-            print('Empleado Eliminado')
-    else:
-        print('Empleado no existe')
-    
-    input('<ENTER> para continuar')
+    print(empleado[buscar])
+    eliminar = input('Quiere eliminar el empelado (S/N): ').upper()
+    if(eliminar == 'S'):
+        del(empleado[buscar])
+        print('Empleado Eliminado')
 
 def calcularPagoxDias(buscar):
     lista = empleado[buscar]
-    sueldoMes = (lista[1]/30) * lista[2]
+    sueldoMes = (lista[2]/30) * lista[3]
     return sueldoMes
         
 def calcularAportesSSG(buscar):
@@ -62,7 +65,7 @@ def calcularAportesSSG(buscar):
 
 def calcularAuxTrasporte(buscar):
     lista = empleado[buscar]
-    auxTrasporte = (106454/30) * lista[2]
+    auxTrasporte = (106454/30) * lista[3]
     return auxTrasporte
 
 
@@ -92,14 +95,17 @@ def calcularValorNeto():
 
 def generarJSON():
     buscarSurcusal = int(input('Digite la sucursal de los empleados a listar: '))
-    for i in empleado:
-        lista = empleado[i]
-        if(int(lista[1]) == buscarSurcusal):
-            print(lista)
-            sucursal[i] = lista
-    
-    with open('dato.json', 'w') as file:
-        json.dump(sucursal, file, indent=4)
+    if buscarSurcusal > 0 and buscarSurcusal <=3:
+        for i in empleado:
+            lista = empleado[i]
+            if(int(lista[1]) == buscarSurcusal):
+                print(lista)
+                sucursal[i] = lista
+        
+        with open('dato.json', 'w') as file:
+            json.dump(sucursal, file, indent=4)
+    else:
+        print("Sucursal no existe...")
     input('<ENTER> para continuar')
     
 def leerJSON():
@@ -137,16 +143,22 @@ while (continuar == 'S'):
     + "\n 8.Salir")
     op = int(input("Digite una opcion: "))
 
-    if (op < 1 or op > 8):
-        input("Opcion incorrecta ... Precione ENTER")
-    elif (op == 1):
+    
+    if (op == 1):
         registrarempleado()
     elif (op == 2):
         mostrarInfoEmpleados()
     elif (op == 3):
         actualizarInformacion()
     elif (op == 4):
-        eliminarEmpleado()
+        try:
+            eliminarEmpleado()
+        except KeyError:
+            print('El id digitado no existe..')
+        except ValueError:
+            print('valor digitado incorrecto') 
+        finally:
+            input('<ENTER> para continuar')
     elif (op == 5):
         calcularValorNeto()
     elif (op == 6):
@@ -154,8 +166,10 @@ while (continuar == 'S'):
         generarJSON()
     elif (op == 7):
         leerJSON()
-    else:
+    elif (op == 8):
         continuar = 'N'
+    else:
+        print('opcion incorrecta')
 
 
 
