@@ -1,0 +1,59 @@
+{
+    "estudiantes": [
+        {
+            "id": 1,
+            "nombre": "Andres",
+            "nota_definitiva": 4.8
+        },
+        {
+            "id": 2,
+            "nombre": "Alejandra",
+            "nota_definitiva": 5.0
+        },
+        {
+            "id": 3,
+            "nombre": "Felipe",
+            "nota_definitiva": 3.5
+        },
+        {
+            "id": 4,
+            "nombre": "Jorge",
+            "nota_definitiva": 4.0
+        },
+        {
+            "id": 5,
+            "nombre": "Daniela",
+            "nota_definitiva": 3.0
+        },
+        {
+            "id": 6,
+            "nombre": "Alfonso",
+            "nota_definitiva": 2.5
+        },
+        {
+            "id": 7,
+            "nombre": "Valentina",
+            "nota_definitiva": 4.3
+        },
+        {
+            "id": 8,
+            "nombre": "Vanessa",
+            "nota_definitiva": 3.8
+        },
+        {
+            "id": 9,
+            "nombre": "Carlos",
+            "nota_definitiva": 2.0
+        },
+        {
+            "id": 10,
+            "nombre": "Mayra",
+            "nota_definitiva": 3.2
+        },
+        {
+            "id": 145,
+            "nombre": "andres",
+            "nota_definitiva": 3.5
+        }
+    ]
+}
